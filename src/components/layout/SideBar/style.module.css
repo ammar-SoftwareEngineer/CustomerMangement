@@ -1,0 +1,9 @@
+.Link {
+  transition: all 0.3s;
+  background-color: white;
+  padding-left: 12px;
+  border-radius: 16px 0 0 16px;
+  width: 300px;
+}
+
+
