@@ -4,6 +4,5 @@ import svgr from "vite-plugin-svgr"
 import tsconfigPaths from "vite-tsconfig-paths"
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:"/CustomerMangement",
   plugins: [react(),tsconfigPaths(),svgr()],
 })
