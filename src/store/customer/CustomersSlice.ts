@@ -6,8 +6,8 @@ interface CustomerState {
     error: string | null
 }
 const initialState: CustomerState = {
-    records: []
-    , loading: "idle",
+    records: [],
+     loading: "idle",
     error: null
 }
 

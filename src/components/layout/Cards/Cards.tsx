@@ -1,27 +1,14 @@
 import customerImg from "@assets/users.svg";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import getCustomers from "@store/customer/getCustomers";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import getTransaction from "@store/transactions/getTransactions";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { DataContext } from "@hooks/context/DataContext";
 import money from "@assets/money.svg";
 import coin from "@assets/coin.svg";
 function Cards() {
-  const dispatchCustomers = useAppDispatch();
-  const dispatchTransaction = useAppDispatch()
-  const { loading: loadingCustomers, error: errorCustomers, records: customers } = useAppSelector((state) => state.customers);
-  const { loading: loadingTransactions, error: errorTransactions, records: transactions } = useAppSelector((state) => state.transactions);
-
-  useEffect(() => {
-    dispatchCustomers(getCustomers())
-    dispatchTransaction(getTransaction())
-  }, [dispatchCustomers, dispatchTransaction])
-
-  const totalAmount=transactions.map((t)=>t.amount).reduce((acc, amount) => acc + amount, 0)
-  const totalTransactions=transactions.length
-  const totalCustomers=customers.length
-
-  
+  const { filteredData } = useContext(DataContext)
+  const totalAmount = filteredData.map((f) => f.transactions.map((t) => t.amount).reduce((acc, amount) => acc + amount, 0)).reduce((acc, amount) => acc + amount, 0)
+  const totalTransactions = filteredData.map((f) => f.transactions.length).reduce((acc, amount) => acc + amount, 0)
+  const totalCustomers = filteredData.map((f) => f).length
   return (
     <div>
       <Container fluid>
@@ -47,7 +34,7 @@ function Cards() {
               <Card.Body className=" d-flex justify-content-between">
                 <Card.Title className="mt-2">Transaction Total </Card.Title>
                 <Card.Text style={{ fontSize: "24px", fontWeight: "bold" }}>
-                 {totalTransactions}
+                  {totalTransactions}
                 </Card.Text>
               </Card.Body>
             </Card>

@@ -1,37 +1,27 @@
 import Header from "@components/layout/Header/Header"
-import getCustomers from "@store/customer/getCustomers";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import getTransaction from "@store/transactions/getTransactions";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { DataContext } from "@hooks/context/DataContext";
 import { Container, Table } from "react-bootstrap"
 import { useParams } from "react-router-dom";
 import { Line } from "react-chartjs-2"
-import { Chart as ChartJS } from "chart.js/auto";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 
 function CustomersDetails() {
-    ChartJS.register = {
-        Line
-    }
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend
+      );
     const { id } = useParams();
-    console.log(id);
-    const dispatchCustomers = useAppDispatch();
-    const dispatchTransaction = useAppDispatch()
-    const { loading: loadingCustomers, error: errorCustomers, records: customers } = useAppSelector((state) => state.customers);
-    const { loading: loadingTransactions, error: errorTransactions, records: transactions } = useAppSelector((state) => state.transactions);
-
-    useEffect(() => {
-        dispatchCustomers(getCustomers())
-        dispatchTransaction(getTransaction())
-    }, [dispatchCustomers, dispatchTransaction]);
-
-    const filteredData = customers.map((customer) => {
-        const customerTransactions = transactions.filter(transaction => transaction.customer_id == customer.id);
-        return {
-            ...customer,
-            transactions: customerTransactions
-        };
-    });
+   // ################# Start Context #################################
+   const { filteredData } = useContext(DataContext)
+   // ################# End Context #################################
+   
 
     let name: string = ""
 
@@ -63,13 +53,18 @@ function CustomersDetails() {
                                 <h4 style={{ color: "#021E87", fontWeight: "600" }}>{name}</h4>
                                 <hr />
                             </div>
-
                             <div className="chartCustomer mt-3">
+                                <div className="total  mt-3">
+                                <h4 className=" text-secondary">Total Amount </h4>
+                                <p className=" fw-medium fs-3">${dataValue?.reduce((acc,amount)=>acc+amount,0)}</p>
+                                </div>
+                              
                                 <Line data={{
                                     labels: dataLabel,
                                     datasets: [{
                                         label: "Total Amount",
                                         data: dataValue,
+                                        borderColor: 'rgb(09, 130, 180)',
                                     }
                                     ]
                                 }} />

@@ -2,15 +2,13 @@ import Cards from "@components/layout/Cards/Cards";
 import Header from "@components/layout/Header/Header";
 import { Col, Container, Row } from "react-bootstrap";
 import Calender from "@components/layout/Calender/Calender";
-
 import CustomersHome from "@components/layout/Tables/CustomersHome/CustomersHome";
 
-
 function Home() {
-  return (
 
+  return (
     <div className="home">
-      <Header title="Dashboard" details={false} dataLink=""/>
+      <Header title="Dashboard" details={false} dataLink="" />
       <div className="cards pt-4">
         <Cards />
       </div>
@@ -24,14 +22,15 @@ function Home() {
               <div className="calender">
                 <Calender />
               </div>
-        
+
             </Col>
           </Row>
         </Container>
       </div>
-    </div>
 
-  );
+
+    </div>
+  )
 }
 
 export default Home;

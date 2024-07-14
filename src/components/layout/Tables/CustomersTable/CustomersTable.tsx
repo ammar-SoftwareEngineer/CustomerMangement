@@ -2,52 +2,23 @@ import { Dropdown, Form } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { IconButton } from "@mui/material";
-import { useAppSelector, useAppDispatch } from '@store/hooks'
-import getCustomers from "@store/customer/getCustomers";
-import getTransaction from "@store/transactions/getTransactions";
 
+import { DataContext } from "@hooks/context/DataContext";
 
 function CustomersTable() {
+  // ################# Start Context #################################
+  const { filteredData } = useContext(DataContext)
+  // ################# End Context #################################
   const [dataFilter, setFilter] = useState<string[]>([]);
   const [searchFilter, setSearchFilter] = useState<string | number>("");
-  const dispatchCustomers = useAppDispatch();
-  const dispatchTransaction = useAppDispatch()
-  const { loading: loadingCustomers, error: errorCustomers, records: customers } = useAppSelector((state) => state.customers);
-  const { loading: loadingTransactions, error: errorTransactions, records: transactions } = useAppSelector((state) => state.transactions);
-
-  useEffect(() => {
-    dispatchCustomers(getCustomers())
-    dispatchTransaction(getTransaction())
-  }, [dispatchCustomers, dispatchTransaction]);
-
-  const filteredData = customers.map((customer) => {
-    const customerTransactions = transactions.filter(transaction => transaction.customer_id == customer.id);
-    return {
-      ...customer,
-      transactions: customerTransactions
-    };
-  });
-
-
-  // const filterdCustomer = useMemo(() => {
-  //   return filteredData.filter(customer => customer.name.toLowerCase().includes(searchFilter.toString().toLowerCase()));
-  // }, [filteredData, searchFilter])
-
-
-
-
-
 
   const handleSelect = (eventKey: string | null): void => {
     if (eventKey && !dataFilter.includes(eventKey)) {
       setFilter([...dataFilter, eventKey]);
     }
-
   };
-
-
 
   function sliceFilter(key: string): void {
     setFilter(dataFilter.filter((f) => f !== key))
@@ -67,6 +38,8 @@ function CustomersTable() {
   ));
   //  ################## Filter Data After Click #################
   let renderData = filteredData
+  console.log(renderData);
+  
   const hasFirstNameFilter = dataFilter.some((d) => d.includes("First Name"));
   const hasAmountFilter = dataFilter.some((d) => d.includes("Amount"));
 
@@ -76,13 +49,21 @@ function CustomersTable() {
     );
     renderData = filteredByName;
   } else if (hasAmountFilter) {
-    
-    const filteredByAmount = filteredData.filter(customer =>
-      customer.transactions.reduce((totalAmount, transaction) => totalAmount + transaction.amount, 0) === Number(searchFilter)
-    );
+    const totalAmount = filteredData.map(customer => ({
+      ...customer,
+      totalAmount: customer.transactions.reduce((total, transaction) => total + transaction.amount, 0)
+    }));
+    const filteredByAmount = searchFilter
+      ? totalAmount.filter(amount =>
+        amount.totalAmount === Number(searchFilter)
+      )
+      : filteredData;
+
     renderData = filteredByAmount;
 
+
   }
+
   const customersList = renderData.length > 0 ? renderData.map((record) => {
     return (
       <tr key={record.id} onClick={() => window.location.href = `/customers/${record.id}`} style={{ cursor: 'pointer' }}>
@@ -96,10 +77,21 @@ function CustomersTable() {
 
   return (
     <div className="bg-white p-3 rounded-3">
+
+
+      {/* <div className=" min-vh-100 bg-opacity-50 w-100 d-flex justify-content-center align-items-center">
+        <FallingLines
+          color="#021E87"
+          width="100"
+          height=""
+          visible={true}
+        />
+      </div> */}
+
       <h3 style={{ color: "#021E87", fontWeight: "600" }}>Customers List</h3>
       <hr />
-      <div className="search-filter  mb-4 d-flex justify-content-between">
-        <div className="filter w-100 d-flex  gap-3 align-items-center">
+      <div className="search-filter mb-4 d-flex justify-content-between">
+        <div className="filter w-100 d-flex gap-3 align-items-center">
           <Dropdown className="dropdown-toggle" onSelect={handleSelect}>
             <Dropdown.Toggle
               variant=""
@@ -120,10 +112,10 @@ function CustomersTable() {
 
         <div className="search w-75">
           <Form.Group
-            className=" position-relative  border border-1 rounded-3 shadow-sm"
+            className="position-relative border border-1 rounded-3 shadow-sm"
             controlId="exampleForm.ControlInput1"
           >
-            <Form.Label className=" position-absolute end-0 top-50 translate-middle me-1">
+            <Form.Label className="position-absolute end-0 top-50 translate-middle me-1">
               <svg
                 style={{ width: "20px", height: "20px" }}
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,11 +126,11 @@ function CustomersTable() {
               >
                 <g
                   fill="none"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   stroke="#666666"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
                   transform="translate(2 2)"
                 >
                   <circle cx="9.767" cy="9.767" r="8.989"></circle>
@@ -150,11 +142,7 @@ function CustomersTable() {
               type="text"
               className="border-0"
               placeholder="Search"
-              onChange={(e) => {
-                setSearchFilter(e.target.value)
-
-
-              }}
+              onChange={(e) => setSearchFilter(e.target.value)}
             />
           </Form.Group>
         </div>
@@ -169,12 +157,15 @@ function CustomersTable() {
           </tr>
         </thead>
         <tbody>
-
-          {customersList}
-
-
+          {customersList.length > 0 ? customersList : (
+            <tr>
+              <td >No customers found</td>
+            </tr>
+          )}
         </tbody>
       </Table>
+
+
     </div>
   );
 }

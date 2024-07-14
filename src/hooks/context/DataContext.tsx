@@ -1,7 +1,7 @@
 import getCustomers from '@store/customer/getCustomers';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import getTransaction from '@store/transactions/getTransactions';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
 
 interface Transaction {
   id: number;
@@ -18,30 +18,25 @@ interface Customer {
 
 interface DataContextType {
   filteredData: Customer[];
-  setSelectedDate: (date: string | null) => void;
-  selectedDate: string | null;
 }
 
 const DataContext = createContext<DataContextType>({
   filteredData: [],
-  setSelectedDate: () => {},
-  selectedDate: null
 });
 
 const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatchCustomers = useAppDispatch();
   const dispatchTransaction = useAppDispatch();
-  const { loading: loadingCustomers, error: errorCustomers, records: customers } = useAppSelector((state) => state.customers);
-  const { loading: loadingTransactions, error: errorTransactions, records: transactions } = useAppSelector((state) => state.transactions);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const transactions = useAppSelector((state) => state.transactions)
+  const customers = useAppSelector((state) => state.customers)
 
   useEffect(() => {
     dispatchCustomers(getCustomers());
     dispatchTransaction(getTransaction());
   }, [dispatchCustomers, dispatchTransaction]);
 
-  const filteredData = customers.map((customer) => {
-    const customerTransactions = transactions.filter(transaction => transaction.customer_id === customer.id && (!selectedDate || transaction.date === selectedDate));
+  const filteredData = customers.records.map((customer) => {
+    const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id );
     return {
       ...customer,
       transactions: customerTransactions
@@ -49,7 +44,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <DataContext.Provider value={{ filteredData, setSelectedDate, selectedDate }}>
+    <DataContext.Provider value={{ filteredData }}>
       {children}
     </DataContext.Provider>
   );
