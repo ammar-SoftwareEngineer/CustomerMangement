@@ -24,9 +24,9 @@ function CustomersTable() {
   function sliceFilter(key: string): void {
     setFilter(dataFilter.filter((f) => f !== key))
   }
-function clearData(){
-  setSearchFilter("")
-}
+  function clearData() {
+    setSearchFilter("")
+  }
 
   const valueFilter = dataFilter.map((value: string) => (
     <span
@@ -34,7 +34,7 @@ function clearData(){
       className="bg-primary px-3 rounded-2 text-white d-flex align-items-center"
     >
       {value}
-      <IconButton className=" text-white" onClick={() => { sliceFilter(value);clearData() }}>
+      <IconButton className=" text-white" onClick={() => { sliceFilter(value); clearData() }}>
         <HighlightOffIcon />
       </IconButton>
     </span>
@@ -42,10 +42,12 @@ function clearData(){
   ));
   //  ################## Filter Data After Click #################
   let renderData = filteredData
-  console.log(renderData);
+
 
   const hasFirstNameFilter = dataFilter.some((d) => d.includes("First Name"));
   const hasAmountFilter = dataFilter.some((d) => d.includes("Amount"));
+  const isDisabled = dataFilter.some((t) => t.includes("First Name") || t.includes("Amount"));
+
 
   if (hasFirstNameFilter) {
     const filteredByName = filteredData.filter(customer =>
@@ -59,7 +61,7 @@ function clearData(){
     }));
     const filteredByAmount = searchFilter
       ? totalAmount.filter(amount =>
-        amount.totalAmount === Number(searchFilter)
+        amount.totalAmount.toString().includes(searchFilter.toString())
       )
       : filteredData;
 
@@ -76,14 +78,15 @@ function clearData(){
         <td className="text-center">{record.transactions.length}</td>
       </tr >
     )
-  }) : "Not Customers"
+  }) : <tr>
+    <td colSpan={4} className=" text-center fw-bolder fs-4">No Customers</td>
+  </tr>
+
+
+  console.log(dataFilter);
 
   return (
     <div className="bg-white p-3 rounded-3">
-
-
-    
-
       <h3 style={{ color: "#021E87", fontWeight: "600" }}>Customers List</h3>
       <hr />
       <div className="search-filter mb-4 d-flex justify-content-between flex-md-nowrap flex-wrap-reverse gap-3 gap-lg-0">
@@ -140,6 +143,7 @@ function clearData(){
               placeholder="Search"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
+              disabled={!isDisabled}
             />
           </Form.Group>
         </div>
@@ -154,11 +158,7 @@ function clearData(){
           </tr>
         </thead>
         <tbody>
-          {customersList.length > 0 ? customersList : (
-            <tr>
-              <td >No customers found</td>
-            </tr>
-          )}
+          {customersList}
         </tbody>
       </Table>
 

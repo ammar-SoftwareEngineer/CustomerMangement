@@ -41,6 +41,7 @@ function CustomersDetails() {
     }) : "Not Customers"
 
 
+
     const dataLabel = customer?.transactions.map((d) => d.date)
     const dataValue = customer?.transactions.map((d) => d.amount)
     return (
