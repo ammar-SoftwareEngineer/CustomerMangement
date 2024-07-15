@@ -46,8 +46,6 @@ function CustomersTable() {
 
   const hasFirstNameFilter = dataFilter.some((d) => d.includes("First Name"));
   const hasAmountFilter = dataFilter.some((d) => d.includes("Amount"));
-  const isDisabled = dataFilter.some((t) => t.includes("First Name") || t.includes("Amount"));
-
 
   if (hasFirstNameFilter) {
     const filteredByName = filteredData.filter(customer =>
@@ -143,7 +141,7 @@ function CustomersTable() {
               placeholder="Search"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              disabled={!isDisabled}
+              disabled={!hasAmountFilter && !hasFirstNameFilter}
             />
           </Form.Group>
         </div>
