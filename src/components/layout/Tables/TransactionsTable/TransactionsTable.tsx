@@ -18,8 +18,9 @@ function TransactionsTable({ date }: DateTransition) {
         <td className="py-3 ">{transactionsForDate.map((t) => t.date)}</td>
       </tr>
     ) : ""
-  }) : "No Transactions"
-
+  }) : <tr>
+  <td colSpan={4} className=" text-center fw-bolder fs-4">No Transactions</td>
+</tr>
 
 
 

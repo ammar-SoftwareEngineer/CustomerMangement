@@ -16,7 +16,9 @@ function CustomersHome() {
       <td className="text-center">${record.transactions.map((t) => t.amount).reduce((acc, amount) => acc + amount, 0)}</td>
       <td className="text-center">{record.transactions.length}</td>
     </tr>
-  }) : "Not Customers"
+  }) : <tr>
+    <td colSpan={4} className=" text-center fw-bolder fs-4">No Customers</td>
+  </tr>
 
   return (
     <div className="bg-white shadow-sm p-4 rounded-3">
@@ -24,8 +26,8 @@ function CustomersHome() {
       <div className="headTable d-flex justify-content-between ">
         <h3 style={{ color: "#021E87", fontWeight: "600" }}>Customers List</h3>
         <Link to="/customers" className=" text-decoration-none">
-       <p className="px-3 fw-semibold text-primary " style={{cursor:"pointer"}}>More</p>
-       </Link>
+          <p className="px-3 fw-semibold text-primary " style={{ cursor: "pointer" }}>More</p>
+        </Link>
       </div>
       <hr />
       <Table hover responsive className="table align-middle mb-0">

@@ -38,7 +38,9 @@ function CustomersDetails() {
             <td>${record.amount}</td>
             <td>{record.date}</td>
         </tr>
-    }) : "Not Customers"
+    }) : <tr>
+    <td colSpan={4} className=" text-center fw-bolder fs-4">No Customers</td>
+  </tr>
 
 
 
