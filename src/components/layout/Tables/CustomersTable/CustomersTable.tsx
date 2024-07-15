@@ -16,13 +16,17 @@ function CustomersTable() {
 
   const handleSelect = (eventKey: string | null): void => {
     if (eventKey && !dataFilter.includes(eventKey)) {
-      setFilter([...dataFilter, eventKey]);
+      setFilter([eventKey]);
     }
+    clearData()
   };
 
   function sliceFilter(key: string): void {
     setFilter(dataFilter.filter((f) => f !== key))
   }
+function clearData(){
+  setSearchFilter("")
+}
 
   const valueFilter = dataFilter.map((value: string) => (
     <span
@@ -30,7 +34,7 @@ function CustomersTable() {
       className="bg-primary px-3 rounded-2 text-white d-flex align-items-center"
     >
       {value}
-      <IconButton className=" text-white" onClick={() => { sliceFilter(value) }}>
+      <IconButton className=" text-white" onClick={() => { sliceFilter(value);clearData() }}>
         <HighlightOffIcon />
       </IconButton>
     </span>
@@ -39,7 +43,7 @@ function CustomersTable() {
   //  ################## Filter Data After Click #################
   let renderData = filteredData
   console.log(renderData);
-  
+
   const hasFirstNameFilter = dataFilter.some((d) => d.includes("First Name"));
   const hasAmountFilter = dataFilter.some((d) => d.includes("Amount"));
 
@@ -60,9 +64,8 @@ function CustomersTable() {
       : filteredData;
 
     renderData = filteredByAmount;
-
-
   }
+
 
   const customersList = renderData.length > 0 ? renderData.map((record) => {
     return (
@@ -90,7 +93,7 @@ function CustomersTable() {
 
       <h3 style={{ color: "#021E87", fontWeight: "600" }}>Customers List</h3>
       <hr />
-      <div className="search-filter mb-4 d-flex justify-content-between">
+      <div className="search-filter mb-4 d-flex justify-content-between flex-md-nowrap flex-wrap-reverse gap-3 gap-lg-0">
         <div className="filter w-100 d-flex gap-3 align-items-center">
           <Dropdown className="dropdown-toggle" onSelect={handleSelect}>
             <Dropdown.Toggle
@@ -107,7 +110,7 @@ function CustomersTable() {
               <Dropdown.Item eventKey={"Amount"}>Amount</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <div className="valueFilter d-flex flex-wrap gap-2">{valueFilter}</div>
+          <div className="valueFilter d-flex flex-wrap gap-2 ">{valueFilter}</div>
         </div>
 
         <div className="search w-75">
@@ -142,6 +145,7 @@ function CustomersTable() {
               type="text"
               className="border-0"
               placeholder="Search"
+              value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
             />
           </Form.Group>

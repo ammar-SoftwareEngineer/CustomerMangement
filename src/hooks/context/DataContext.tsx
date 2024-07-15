@@ -18,10 +18,12 @@ interface Customer {
 
 interface DataContextType {
   filteredData: Customer[];
+
 }
 
 const DataContext = createContext<DataContextType>({
   filteredData: [],
+
 });
 
 const DataProvider = ({ children }: { children: React.ReactNode }) => {
@@ -36,7 +38,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   }, [dispatchCustomers, dispatchTransaction]);
 
   const filteredData = customers.records.map((customer) => {
-    const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id );
+    const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id);
     return {
       ...customer,
       transactions: customerTransactions

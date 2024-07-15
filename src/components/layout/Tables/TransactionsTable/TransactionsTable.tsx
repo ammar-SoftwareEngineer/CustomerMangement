@@ -29,7 +29,7 @@ function TransactionsTable({ date }: DateTransition) {
         </h3>
         <hr />
 
-        <Table bordered hover responsive className="table align-middle mb-0">
+        <Table  hover responsive className="table align-middle mb-0">
           <thead>
             <tr>
               <th>Name</th>

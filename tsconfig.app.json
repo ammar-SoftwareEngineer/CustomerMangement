@@ -48,6 +48,9 @@
       "@services/*": [
         "src/services/*"
       ],
+      "@interfaces/*": [
+        "src/interfaces/*"
+      ],
     },
     /* Linting */
     "strict": true,
