@@ -36,7 +36,7 @@ function CustomersHome() {
             <th>Id</th>
             <th>Name</th>
             <th className="text-center">Transaction amount</th>
-            <th className="text-center">Number of transactions</th>
+            <th className="text-center">Length transactions</th>
           </tr>
         </thead>
         <tbody>

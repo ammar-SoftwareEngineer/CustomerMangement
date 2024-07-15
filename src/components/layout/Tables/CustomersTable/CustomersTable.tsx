@@ -44,7 +44,7 @@ function CustomersTable() {
   let renderData = filteredData
 
 
-  const hasFirstNameFilter = dataFilter.some((d) => d.includes("First Name"));
+  const hasFirstNameFilter = dataFilter.some((d) => d.includes("Name"));
   const hasAmountFilter = dataFilter.some((d) => d.includes("Amount"));
 
   if (hasFirstNameFilter) {
@@ -100,7 +100,7 @@ function CustomersTable() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu style={{ minWidth: "40px" }}>
-              <Dropdown.Item eventKey={"First Name"}>First Name</Dropdown.Item>
+              <Dropdown.Item eventKey={"Name"}>Name</Dropdown.Item>
               <Dropdown.Item eventKey={"Amount"}>Amount</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -152,7 +152,7 @@ function CustomersTable() {
             <th>Id</th>
             <th>Name</th>
             <th className="text-center">Transaction amount</th>
-            <th className="text-center">Number of transactions</th>
+            <th className="text-center">Length transactions</th>
           </tr>
         </thead>
         <tbody>
