@@ -15,15 +15,24 @@ interface Customer {
   name: string;
   transactions: Transaction[];
 }
-
+interface CustomerState {
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed',
+  error: string | null
+}
+interface TransactionsState {
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed',
+  error: string | null
+}
 interface DataContextType {
   filteredData: Customer[];
-
+  customersData: CustomerState;
+  transactionsData: TransactionsState;
 }
 
 const DataContext = createContext<DataContextType>({
   filteredData: [],
-
+  customersData: { loading: 'idle', error: null },
+  transactionsData: { loading: 'idle', error: null }
 });
 
 const DataProvider = ({ children }: { children: React.ReactNode }) => {
@@ -46,7 +55,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <DataContext.Provider value={{ filteredData }}>
+    <DataContext.Provider value={{ filteredData, customersData: customers, transactionsData: transactions }}>
       {children}
     </DataContext.Provider>
   );

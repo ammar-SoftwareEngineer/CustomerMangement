@@ -82,14 +82,7 @@ function clearData(){
     <div className="bg-white p-3 rounded-3">
 
 
-      {/* <div className=" min-vh-100 bg-opacity-50 w-100 d-flex justify-content-center align-items-center">
-        <FallingLines
-          color="#021E87"
-          width="100"
-          height=""
-          visible={true}
-        />
-      </div> */}
+    
 
       <h3 style={{ color: "#021E87", fontWeight: "600" }}>Customers List</h3>
       <hr />

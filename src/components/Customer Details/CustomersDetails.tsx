@@ -5,7 +5,7 @@ import { Container, Table } from "react-bootstrap"
 import { useParams } from "react-router-dom";
 import { Line } from "react-chartjs-2"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-
+import { FallingLines } from 'react-loader-spinner'
 
 function CustomersDetails() {
     ChartJS.register(
@@ -16,12 +16,14 @@ function CustomersDetails() {
         Title,
         Tooltip,
         Legend
-      );
+    );
     const { id } = useParams();
-   // ################# Start Context #################################
-   const { filteredData } = useContext(DataContext)
-   // ################# End Context #################################
-   
+    // ################# Start Context #################################
+    const { filteredData } = useContext(DataContext)
+
+    const { customersData, transactionsData } = useContext(DataContext)
+    // ################# End Context #################################
+
 
     let name: string = ""
 
@@ -43,55 +45,68 @@ function CustomersDetails() {
     const dataValue = customer?.transactions.map((d) => d.amount)
     return (
         <div className="customer-details">
-            <div className="header">
 
-                <Header title="Customer Details" details={true} dataLink="/customers" />
-                <div className="date pt-4 ">
-                    <Container fluid >
-                        <div className="dataCustomer  bg-white shadow-sm p-4 rounded-3">
-                            <div className="nameCustomer">
-                                <h4 style={{ color: "#021E87", fontWeight: "600" }}>{name}</h4>
-                                <hr />
-                            </div>
-                            <div className="chartCustomer mt-3">
-                                <div className="total  mt-3">
-                                <h4 className=" text-secondary">Total Amount </h4>
-                                <p className=" fw-medium fs-3">${dataValue?.reduce((acc,amount)=>acc+amount,0)}</p>
-                                </div>
-                              
-                                <Line data={{
-                                    labels: dataLabel,
-                                    datasets: [{
-                                        label: "Total Amount",
-                                        data: dataValue,
-                                        borderColor: 'rgb(09, 130, 180)',
-                                    }
-                                    ]
-                                }} />
-                            </div>
-
-                            <div className="table mt-3">
-                                <Table hover responsive className="table align-middle">
-                                    <thead>
-                                        <tr className="text-center">
-                                            <th>Id</th>
-                                            <th>Transaction amount</th>
-                                            <th>Transaction Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        {customersList}
-
-
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </div>
-
-                    </Container>
+            {customersData.loading == "pending" && transactionsData.loading == "pending" ?
+                <div className=" min-vh-100  w-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
+                    <FallingLines
+                        color="#021E87"
+                        width="100"
+                        height=""
+                        visible={true}
+                    />
                 </div>
+                : (<>
+   <div className="header">
+
+<Header title="Customer Details" details={true} dataLink="/customers" />
+<div className="date pt-4 ">
+    <Container fluid >
+        <div className="dataCustomer  bg-white shadow-sm p-4 rounded-3">
+            <div className="nameCustomer">
+                <h4 style={{ color: "#021E87", fontWeight: "600" }}>{name}</h4>
+                <hr />
             </div>
+            <div className="chartCustomer mt-3">
+                <div className="total  mt-3">
+                    <h4 className=" text-secondary">Total Amount </h4>
+                    <p className=" fw-medium fs-3">${dataValue?.reduce((acc, amount) => acc + amount, 0)}</p>
+                </div>
+
+                <Line data={{
+                    labels: dataLabel,
+                    datasets: [{
+                        label: "Total Amount",
+                        data: dataValue,
+                        borderColor: 'rgb(09, 130, 180)',
+                    }
+                    ]
+                }} />
+            </div>
+
+            <div className="table mt-3">
+                <Table hover responsive className="table align-middle">
+                    <thead>
+                        <tr className="text-center">
+                            <th>Id</th>
+                            <th>Transaction amount</th>
+                            <th>Transaction Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {customersList}
+
+
+                    </tbody>
+                </Table>
+            </div>
+        </div>
+
+    </Container>
+</div>
+</div>
+                </>)}
+         
         </div>
     )
 }
