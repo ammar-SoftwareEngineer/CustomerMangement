@@ -3,7 +3,9 @@
     width: 15% !important;
   }
 
-  .home,.customer,  .customer-details {
+  .home,
+  .customer,
+  .customer-details {
     margin-left: -2% !important;
   }
 }
@@ -20,7 +22,9 @@
   .sidebar {
     width: 20% !important;
   }
-  .home ,.customer,.customer-details{
+  .home,
+  .customer,
+  .customer-details {
     margin-left: -7% !important;
   }
   .sidebar img {

@@ -14,11 +14,11 @@ function Cards() {
       <Container fluid>
         <Row className="gx-4 gy-4">
           <Col>
-            <Card className=" rounded-4 shadow-lg text-center  p-4">
+            <Card className=" rounded-4 shadow-lg text-center  p-md-4 p-3">
               <div>
                 <img width={50} src={customerImg} alt="" />
               </div>
-              <Card.Body className=" d-flex justify-content-between ">
+              <Card.Body className=" d-flex justify-content-between align-items-center">
                 <Card.Title className="mt-2">Customers Total </Card.Title>
                 <Card.Text style={{ fontSize: "24px", fontWeight: "bold" }}>
                   {totalCustomers}
@@ -27,11 +27,11 @@ function Cards() {
             </Card>
           </Col>
           <Col>
-            <Card className=" rounded-4 shadow-lg text-center p-4">
+            <Card className=" rounded-4 shadow-lg text-center p-md-4 p-3">
               <div>
                 <img width={50} src={money} alt="" />
               </div>
-              <Card.Body className=" d-flex justify-content-between">
+              <Card.Body className=" d-flex justify-content-between align-items-center">
                 <Card.Title className="mt-2">Transaction Total </Card.Title>
                 <Card.Text style={{ fontSize: "24px", fontWeight: "bold" }}>
                   {totalTransactions}
@@ -40,11 +40,11 @@ function Cards() {
             </Card>
           </Col>
           <Col>
-            <Card className=" rounded-4 shadow-lg text-center p-4">
+            <Card className=" rounded-4 shadow-lg text-center p-md-4 p-3">
               <div>
                 <img width={50} src={coin} alt="" />
               </div>
-              <Card.Body className=" d-flex justify-content-between">
+              <Card.Body className=" d-flex justify-content-between align-items-center">
                 <Card.Title className="mt-2">Amount Total</Card.Title>
                 <Card.Text style={{ fontSize: "24px", fontWeight: "bold" }}>
                   ${totalAmount}
