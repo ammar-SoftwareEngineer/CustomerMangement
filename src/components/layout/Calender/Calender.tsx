@@ -29,7 +29,7 @@ function Calender() {
                 onChange={(newDate) => {
                   setDate(newDate.$d);
                 }}
-                sx={{ width: "100%", height: "260px" }}
+                sx={{ width: "100%", height: "260px",overflowX:"auto" }}
               />
             </DemoItem>
           </DemoContainer>

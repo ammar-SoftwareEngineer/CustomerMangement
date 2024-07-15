@@ -2,7 +2,8 @@
   .sidebar {
     width: 15% !important;
   }
-  .home,.customer {
+
+  .home,.customer,  .customer-details {
     margin-left: -2% !important;
   }
 }

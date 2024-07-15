@@ -72,7 +72,7 @@ function clearData(){
       <tr key={record.id} onClick={() => window.location.href = `/customers/${record.id}`} style={{ cursor: 'pointer' }}>
         <td className="py-3 ">{record.id}</td>
         <td>{record.name}</td>
-        <td className="text-center">{record.transactions.reduce((totalAmount, transaction) => totalAmount + transaction.amount, 0)}</td>
+        <td className="text-center">${record.transactions.reduce((totalAmount, transaction) => totalAmount + transaction.amount, 0)}</td>
         <td className="text-center">{record.transactions.length}</td>
       </tr >
     )
@@ -149,8 +149,8 @@ function clearData(){
           <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Transaction amount</th>
-            <th>Number of transactions</th>
+            <th className="text-center">Transaction amount</th>
+            <th className="text-center">Number of transactions</th>
           </tr>
         </thead>
         <tbody>

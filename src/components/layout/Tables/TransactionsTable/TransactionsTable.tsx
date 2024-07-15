@@ -21,6 +21,7 @@ function TransactionsTable({ date }: DateTransition) {
 }) : "No Transactions"
 
 
+
   return (
     <div className="bg-white shadow-sm py-3 px-2 rounded-3">
       <Container fluid>
@@ -37,7 +38,7 @@ function TransactionsTable({ date }: DateTransition) {
             </tr>
           </thead>
           <tbody>
-            {TransactionsList}
+            { TransactionsList}
           </tbody>
         </Table>
       </Container>
