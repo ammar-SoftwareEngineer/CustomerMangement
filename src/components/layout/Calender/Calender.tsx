@@ -36,7 +36,7 @@ function Calender() {
           </DemoContainer>
         </LocalizationProvider>
       </div>
-      <div className="transaction mt-4">
+      <div className="transaction mt-3">
         <TransactionsTable date={dateCalender} />
       </div>
     </div>
