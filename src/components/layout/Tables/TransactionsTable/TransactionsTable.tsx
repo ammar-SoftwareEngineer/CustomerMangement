@@ -9,18 +9,17 @@ function TransactionsTable({ date }: DateTransition) {
   // ################# Start Context #################################
   const { filteredData } = useContext(DataContext)
   // ################# End Context #################################
+  const TransactionsList = filteredData.map((f) => f.transactions.map((t) => {
+    // const lengthTransactions = t.date.length.toString().slice(0, length + 1)
+    if (t.date.toString().includes(date)) {
+      return (<tr >
+        <td>{f.name}</td>
+        <td>{t.date}</td>
+      </tr>)
+    }
+  }
+  ))
 
-  const TransactionsList = filteredData.length > 0 ? filteredData.map(record => {
-    const transactionsForDate = record.transactions.filter(transaction => transaction.date == date);
-    return transactionsForDate.length > 0 ? (
-      <tr key={record.id} className="py-3">
-        <td>{record.name}</td>
-        <td className="py-3 ">{transactionsForDate.map((t) => t.date)}</td>
-      </tr>
-    ) : ""
-  }) : <tr>
-  <td colSpan={4} className=" text-center fw-bolder fs-4">No Transactions</td>
-</tr>
 
 
 
@@ -42,6 +41,7 @@ function TransactionsTable({ date }: DateTransition) {
           </thead>
           <tbody>
             {TransactionsList}
+
           </tbody>
         </Table>
       </Container>

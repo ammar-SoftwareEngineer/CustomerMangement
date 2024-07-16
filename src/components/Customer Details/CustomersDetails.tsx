@@ -39,8 +39,8 @@ function CustomersDetails() {
             <td>{record.date}</td>
         </tr>
     }) : <tr>
-    <td colSpan={4} className=" text-center fw-bolder fs-4">No Customers</td>
-  </tr>
+        <td colSpan={4} className=" text-center fw-bolder fs-4">No Customers</td>
+    </tr>
 
 
 
@@ -75,16 +75,18 @@ function CustomersDetails() {
                                             <h4 className=" mb-0" style={{ color: "#A7A7A7" }}>Total Amount </h4>
                                             <p className=" fw-medium fs-3 ">${dataValue?.reduce((acc, amount) => acc + amount, 0)}</p>
                                         </div>
+                                        <div className="chart">
+                                            <Line data={{
+                                                labels: dataLabel,
+                                                datasets: [{
+                                                    data: dataValue,
+                                                    borderColor: '#064ff0',
+                                                    label: "Total Amount"
+                                                }
+                                                ]
+                                            }} />
+                                        </div>
 
-                                        <Line  data={{
-                                            labels: dataLabel,
-                                            datasets: [{
-                                                data: dataValue,
-                                                borderColor: '#064ff0',
-                                                label:"Total Amount"
-                                            }
-                                            ]
-                                        }} />
                                     </div>
 
                                     <div className="table mt-3">
