@@ -20,10 +20,6 @@ function TransactionsTable({ date }: DateTransition) {
   }
   ))
 
-
-
-
-
   return (
     <div className="bg-white shadow-sm py-3 px-2 rounded-3">
       <Container fluid>

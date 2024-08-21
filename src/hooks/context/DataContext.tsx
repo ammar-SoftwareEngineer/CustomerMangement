@@ -1,7 +1,7 @@
 import getCustomers from '@store/customer/getCustomers';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import getTransaction from '@store/transactions/getTransactions';
-import React, { createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useMemo } from 'react';
 
 interface Transaction {
   id: number;
@@ -46,13 +46,14 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
     dispatchTransaction(getTransaction());
   }, [dispatchCustomers, dispatchTransaction]);
 
-  const filteredData = customers.records.map((customer) => {
-    const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id);
-    return {
-      ...customer,
-      transactions: customerTransactions
-    };
-  });
+  const filteredData = useMemo(() =>  customers.records.map((customer) => {
+      const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id);
+      return {
+        ...customer,
+        transactions: customerTransactions
+      };
+    }),[customers.records, transactions.records]
+  )
 
   return (
     <DataContext.Provider value={{ filteredData, customersData: customers, transactionsData: transactions }}>
