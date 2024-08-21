@@ -5,11 +5,11 @@ import { FallingLines } from 'react-loader-spinner'
 import { useContext } from "react";
 import { DataContext } from "@hooks/context/DataContext";
 function Customers() {
-  const { customersData, transactionsData } = useContext(DataContext)
+  const { loadingCustomers, loadingTransactionsData } = useContext(DataContext)
   return (
     <div className="customer">
 
-      {customersData.loading == "pending" && transactionsData.loading == "pending" ?
+      {loadingCustomers == "pending" && loadingTransactionsData == "pending" ?
         <div className=" min-vh-100  w-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
           <FallingLines
             color="#021E87"

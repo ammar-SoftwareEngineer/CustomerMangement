@@ -1,7 +1,7 @@
+import React, { createContext, useEffect,useMemo } from 'react';
 import getCustomers from '@store/customer/getCustomers';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import getTransaction from '@store/transactions/getTransactions';
-import React, { createContext, useEffect, useMemo } from 'react';
 
 interface Transaction {
   id: number;
@@ -15,48 +15,50 @@ interface Customer {
   name: string;
   transactions: Transaction[];
 }
-interface CustomerState {
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-  error: string | null
-}
-interface TransactionsState {
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-  error: string | null
-}
+
 interface DataContextType {
   filteredData: Customer[];
-  customersData: CustomerState;
-  transactionsData: TransactionsState;
+  loadingCustomers: string
+  loadingTransactionsData: string,
+  error: string | null
 }
 
 const DataContext = createContext<DataContextType>({
   filteredData: [],
-  customersData: { loading: 'idle', error: null },
-  transactionsData: { loading: 'idle', error: null }
+  loadingCustomers: 'idle',
+  loadingTransactionsData: 'idle',
+  error: null,
 });
 
 const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatchCustomers = useAppDispatch();
   const dispatchTransaction = useAppDispatch();
-  const transactions = useAppSelector((state) => state.transactions)
   const customers = useAppSelector((state) => state.customers)
+  const transactions = useAppSelector((state) => state.transactions)
 
   useEffect(() => {
     dispatchCustomers(getCustomers());
     dispatchTransaction(getTransaction());
   }, [dispatchCustomers, dispatchTransaction]);
 
-  const filteredData = useMemo(() =>  customers.records.map((customer) => {
-      const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id);
-      return {
-        ...customer,
-        transactions: customerTransactions
-      };
-    }),[customers.records, transactions.records]
+  const filteredData = useMemo(() => customers.records.map((customer) => {    
+    const customerTransactions = transactions.records.filter(transaction => transaction.customer_id == customer.id);
+    return {
+      ...customer,
+      transactions: customerTransactions
+    };
+  }), [customers.records, transactions.records]
   )
+  // Loading Data
+  const loadingCustomers = customers.loading
+  const loadingTransactionsData = transactions.loading
 
+  // Error Data
+  const errorCustomers = customers.error
+  const errorTransactions = transactions.error
+  // DataContext provider
   return (
-    <DataContext.Provider value={{ filteredData, customersData: customers, transactionsData: transactions }}>
+    <DataContext.Provider value={{ filteredData, loadingCustomers, loadingTransactionsData, error: errorCustomers || errorTransactions }}>
       {children}
     </DataContext.Provider>
   );

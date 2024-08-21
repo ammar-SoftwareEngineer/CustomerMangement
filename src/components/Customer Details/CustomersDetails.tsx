@@ -19,9 +19,8 @@ function CustomersDetails() {
     );
     const { id } = useParams();
     // ################# Start Context #################################
-    const { filteredData } = useContext(DataContext)
 
-    const { customersData, transactionsData } = useContext(DataContext)
+    const { filteredData, loadingCustomers, loadingTransactionsData } = useContext(DataContext)
     // ################# End Context #################################
 
 
@@ -49,7 +48,7 @@ function CustomersDetails() {
     return (
         <div className="customer-details">
 
-            {customersData.loading == "pending" && transactionsData.loading == "pending" ?
+            {loadingCustomers == "pending" && loadingTransactionsData == "pending" ?
                 <div className=" min-vh-100  w-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
                     <FallingLines
                         color="#021E87"

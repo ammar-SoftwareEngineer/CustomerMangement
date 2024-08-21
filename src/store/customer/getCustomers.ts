@@ -6,8 +6,8 @@ const getCustomers = createAsyncThunk("customers/getCustomers", async (_, thunkA
     const { rejectWithValue } = thunkApi
     try {
         const response = await axios.get("https://raw.githubusercontent.com/ammar-SoftwareEngineer/CustomerMangement/master/server/db.json")
-        console.log(response.data);
-        return response.data
+
+        return response.data.customers
         
     } catch (error) {
         if (axios.isAxiosError(error)) {
